@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from functions import process_data, get_insights
+from functions import process_data
 
 def main():
     st.title('Admin Dashboard')
@@ -11,15 +11,16 @@ def main():
     if st.button('Login'):
         if username == 'admin' and password == 'admin':
             st.success('Logged in successfully')
-            file = st.file_uploader("Upload excel", type=['xlsx'])
-            if file is not None:
-                data = pd.read_excel(file)
-                if st.button('Push Data'):
-                    process_data(data)s
-                    st.success('Data pushed successfully')
-                if st.button('Get Insights'):
-                    insights = get_insights()
-                    st.write(insights)
+            st.balloons()
+
+            files = st.file_uploader("Upload excel", type=['xlsx', 'xls'], accept_multiple_files=True)
+
+            if files:
+                for file in files:
+                    data = pd.read_excel(file)
+                    process_data(data)
+                    st.success(f'Data pushed successfully for {file.name}')
+
         else:
             st.error('The username or password you entered is incorrect.')
 
