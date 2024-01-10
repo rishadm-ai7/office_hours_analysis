@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import SubmitField
 from wtforms.validators import DataRequired
-from flask_login import LoginManager, UserMixin, login_usxer, login_required, logout_user, current_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
