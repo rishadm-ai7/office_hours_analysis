@@ -3,7 +3,6 @@ import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
-import psycopg2
 
 load_dotenv()
 
@@ -37,5 +36,5 @@ def process_data(df):
     except Exception as e:
         return f"Error processing and pushing data: {str(e)}"
 
-def get_insights():
+def get_insights_from_db():
     pass
