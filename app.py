@@ -1,20 +1,27 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+from functions import process_data, get_insights
 
-uploaded_files = st.file_uploader("Choose a Excel file", accept_multiple_files=True)
+def main():
+    st.title('Admin Dashboard')
 
-for uploaded_file in uploaded_files:
-    if uploaded_file is not None:
-        df = pd.read_excel(uploaded_file)
-        pattern = r'\b(\d{2}-\w{3}-\d{4})\b'
-        date_series = pd.Series(df.to_string()).str.extract(pattern)
-        report_date_str = pd.to_datetime(date_series[0], format='%d-%b-%Y').dt.strftime('%Y-%m-%d').iloc[0]
-        start_location = np.where(df == 'SNo')
-        row_num, col_num = start_location[0][0], start_location[1][0]
-        df = df.iloc[row_num:, col_num:]
-        df.columns = df.iloc[0]
-        df = df.drop(df.index[0])
-        df = df.dropna(axis=1, how='any')
-        df['report_date'] = report_date_str
-        
+    username = st.text_input("Username")
+    password = st.text_input("Password", type='password')
+
+    if st.button('Login'):
+        if username == 'admin' and password == 'admin':
+            st.success('Logged in successfully')
+            file = st.file_uploader("Upload excel", type=['xlsx'])
+            if file is not None:
+                data = pd.read_excel(file)
+                if st.button('Push Data'):
+                    process_data(data)s
+                    st.success('Data pushed successfully')
+                if st.button('Get Insights'):
+                    insights = get_insights()
+                    st.write(insights)
+        else:
+            st.error('The username or password you entered is incorrect.')
+
+if __name__ == "__main__":
+    main()
