@@ -16,7 +16,7 @@ from flask_wtf.file import MultipleFileField
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SECRET_KEY'] = 'test_secret_key'
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -68,7 +68,7 @@ def process_data(df):
         }
 
         engine = create_engine(f"postgresql://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}:{db_credentials['port']}/{db_credentials['database']}")
-        df.to_sql('public.office_hours', con=engine, index=False, if_exists='append')
+        df.to_sql('office_hours_details', con=engine, index=False, if_exists='append')
 
         return f"Data pushed successfully!"
     except Exception as e:
